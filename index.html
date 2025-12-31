@@ -1,1 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>500km Group Run</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 20px; }
+    .row { display:flex; gap:20px; flex-wrap:wrap; }
+    .card { border:1px solid #ddd; border-radius:12px; padding:14px; min-width:280px; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { padding:8px; border-bottom:1px solid #eee; text-align:left; }
+    .right { text-align:right; }
+  </style>
+</head>
+<body>
+  <h1>500km Group Run (2026)</h1>
+  <div>Updated: <span id="updatedAt">—</span></div>
 
+  <div class="row">
+    <div class="card">
+      <h2>Group Total</h2>
+      <div style="font-size:32px;">
+        <span id="groupTotal">0</span> / <span id="goalKm">500</span> km
+      </div>
+      <progress id="groupBar" value="0" max="500" style="width:100%; height:20px;"></progress>
+    </div>
+
+    <div class="card" style="flex:1;">
+      <h2>Leaderboard</h2>
+      <table>
+        <thead><tr><th>Runner</th><th class="right">KM</th></tr></thead>
+        <tbody id="leader"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
