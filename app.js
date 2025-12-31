@@ -1,5 +1,5 @@
 // Put your Apps Script Web App URL here:
-const API_URL = "PASTE_YOUR_SCRIPT_WEB_APP_URL_HERE";
+const API_URL = "https://script.google.com/macros/s/AKfycbxUhKRZFFPMUgxXJ0NZMCbIIm-frmaL5oXxVaHzgNFRtJW-x9zkejC06F7GUqhnx8vMGw/exec";
 
 async function main() {
   const data = await fetch(API_URL, { cache: "no-store" }).then(r => r.json());
