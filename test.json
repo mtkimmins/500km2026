@@ -1,0 +1,12 @@
+{
+    "perPerson": [
+        {
+            "name": "Alice",
+            "distance": 120
+        },
+        {
+            "name": "Bob",
+            "distance": 150
+        }
+    ]
+}
