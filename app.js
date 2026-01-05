@@ -1,4 +1,4 @@
-//VARS
+//VARS 
 SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbxUhKRZFFPMUgxXJ0NZMCbIIm-frmaL5oXxVaHzgNFRtJW-x9zkejC06F7GUqhnx8vMGw/exec';
 
 
