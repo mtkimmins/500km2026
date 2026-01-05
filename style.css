@@ -1,6 +1,0 @@
-body { font-family: system-ui, sans-serif; margin: 20px; }
-.row { display:flex; gap:20px; flex-wrap:wrap; }
-.card { border:1px solid #ddd; border-radius:12px; padding:14px; min-width:280px; }
-table { width:100%; border-collapse:collapse; }
-th, td { padding:8px; border-bottom:1px solid #eee; text-align:left; }
-.right { text-align:right; }

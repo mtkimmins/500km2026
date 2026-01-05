@@ -1,12 +1,5 @@
 {
-    "perPerson": [
-        {
-            "name": "Alice",
-            "distance": 120
-        },
-        {
-            "name": "Bob",
-            "distance": 150
-        }
-    ]
+  "mike":230,
+  "sam":405,
+  "updated":"Jan 1, 2024"
 }
