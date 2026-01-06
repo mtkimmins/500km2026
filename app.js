@@ -154,6 +154,10 @@ function addJSONAsTracks(json, leaderboard){
 function renderTracks(leaderboard){
     //render each track
     for (let track of leaderboard.tracks) {
+        if (track === "updatedAt") {
+            console.log("Skipping updatedAt");
+            continue;
+        }
         const entriesDiv = document.getElementById('leaderboard-entries');
         entriesDiv.replaceChild(); //clear existing entries
         const trackDiv = track.draw();
