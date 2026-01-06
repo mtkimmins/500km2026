@@ -4,7 +4,7 @@ SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyvTcG8b_DE0XdYW2zRei1
 
 ////////////////////////////////////////////
 // CLASSES
-////////////////////////////////////////////
+///////////////////////////////////////////
 class DataLoader {
     async fetchData(url){
         const response = await fetch(url);
@@ -44,6 +44,48 @@ class Leaderboard {
         console.log("Updated at:", updatedAt);
 
     }
+
+    addJSONAsTracks(json){
+        for (let key in json) {
+            console.log(key + ": " + json[key]);
+            if (key === "updatedAt"){
+                this.drawUpdatedAt(json[key]);
+                continue;
+            }
+            const track = new Track(
+                key,
+                parseFloat(json[key]),
+                "./plants.png"
+            );
+            console.log(track);
+            this.addTrack(track);
+            console.log(this.tracks);
+            }
+        }
+
+    renderTracks(){
+        //render each track
+        for (let track of this.tracks) {
+            if (track === "updatedAt") {
+                console.log("Skipping updatedAt");
+                continue;
+            }
+            const entriesDiv = document.getElementById('leaderboard-entries');
+            const trackDiv = track.draw();
+            
+            entriesDiv.appendChild(trackDiv);
+            }
+        }
+    
+    populateLeaderboard(json){
+        //Convert JSON as tracks
+        addJSONAsTracks(json);
+        //sort tracks by distance
+        updatePlaces();
+        //render tracks
+        renderTracks();
+
+}
 }
 
 
@@ -167,8 +209,8 @@ function renderTracks(leaderboard){
 
 
 function populateLeaderboard(json){
-    //Convert JSON as tracks
     const leaderboard = new Leaderboard();
+    //Convert JSON as tracks
     addJSONAsTracks(json, leaderboard);
 
     //sort tracks by distance
@@ -195,6 +237,8 @@ function triggerDataLoad(){
     script.src = buildHTTPRequest('receiveData');
     document.head.appendChild(script);
 }
+
+
 ////////////////////////////////////////////
 // RUNTIME
 ////////////////////////////////////////////
