@@ -159,7 +159,6 @@ function renderTracks(leaderboard){
             continue;
         }
         const entriesDiv = document.getElementById('leaderboard-entries');
-        entriesDiv.innerHTML = ''; // Clear previous entries
         const trackDiv = track.draw();
         
         entriesDiv.appendChild(trackDiv);
