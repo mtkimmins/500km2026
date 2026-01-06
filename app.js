@@ -155,6 +155,7 @@ function renderTracks(leaderboard){
     //render each track
     for (let track of leaderboard.tracks) {
         const entriesDiv = document.getElementById('leaderboard-entries');
+        entriesDiv.replaceChild(); //clear existing entries
         const trackDiv = track.draw();
         
         entriesDiv.appendChild(trackDiv);
