@@ -133,30 +133,19 @@ class Track {
 /////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////
+
 //fetch data from google sheets
 function getData(){
     var script = document.createElement('script');
-    script.src = SHEETS_API_URL
+    script.src = SHEETS_API_URL + "?callback=handleData";
     document.head.appendChild(script);
 }
-////////////////////////////////////////////
-// RUNTIME
-////////////////////////////////////////////
 
-//TEST JSON DATA
-// const json = {
-//   "mike":230,
-//   "sam":405,
-//   "updated":"Jan 1, 2024"
-// }
 
-const json = getData();
-console.log("JSON Data:", json);
-const leaderboard = new Leaderboard();
-// document.addEventListener("DOMContentLoaded", getData);
-
-//partition data into tracks and add to leaderboard
-for (let key in json) {
+function populateLeaderboard(json){
+    const leaderboard = new Leaderboard();
+    console.log("JSON Data:", json);
+    for (let key in json) {
     console.log(key + ": " + json[key]);
     if (key === "updated"){
         leaderboard.drawUpdatedAt(json[key]);
@@ -170,15 +159,35 @@ for (let key in json) {
     console.log(track);
     leaderboard.addTrack(track);
     console.log(leaderboard.tracks);
+    }
+
+    //sort tracks by distance
+    leaderboard.updatePlaces();
+
+    //render each track
+    for (let track of leaderboard.tracks) {
+        const entriesDiv = document.getElementById('leaderboard-entries');
+        const trackDiv = track.draw();
+        
+        entriesDiv.appendChild(trackDiv);
+    }
+}
+////////////////////////////////////////////
+// RUNTIME
+////////////////////////////////////////////
+
+//TEST JSON DATA
+// const json = {
+//   "mike":230,
+//   "sam":405,
+//   "updated":"Jan 1, 2024"
+// }
+
+
+window.handleData = function(json) {
+    console.log("Received JSON:", json);
+    document.getElementById('json_output').innerText = json.message || '';
+    populateLeaderboard(json);
 }
 
-//sort tracks by distance
-leaderboard.updatePlaces();
-
-//render each track
-for (let track of leaderboard.tracks) {
-    const entriesDiv = document.getElementById('leaderboard-entries');
-    const trackDiv = track.draw();
-    
-    entriesDiv.appendChild(trackDiv);
-}
+document.addEventListener('DOMContentLoaded', handleData);
