@@ -29,3 +29,7 @@ Its like a person (Github) orders a pizza from Dominos (App Scripts). When the p
 1) The callback should be a global scope so you can execute it anywhere
 2) Turn the JSON string data into an object again
 3) Run your local code from the new JSON object data
+
+---
+# Debugging Tips
+* To check if the App Script will return what you want, put the JSONP request directly in a browser URL itself. If it returns a string that you want, you're golden.
