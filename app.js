@@ -24,7 +24,7 @@ class Leaderboard {
     }
 
     _sortTracksByProgress(){
-        this.tracks.sort((a, b) => b.progress_km - a.progress_km);
+        this.tracks.sort((a, b) => b.km - a.km);
     }
 
     updatePlaces(){
