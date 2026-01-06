@@ -133,16 +133,15 @@ class Track {
 /////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////
-async function getData(){
-    const data = await fetch(SHEETS_API_URL);
-    const json = await data.json();
-    console.log(json);
-    return json;
+//fetch data from google sheets
+function getData(){
+    var script = document.createElement('script');
+    script.src = SHEETS_API_URL
+    document.head.appendChild(script);
 }
 ////////////////////////////////////////////
 // RUNTIME
 ////////////////////////////////////////////
-const json = getData();
 
 //TEST JSON DATA
 // const json = {
@@ -151,8 +150,11 @@ const json = getData();
 //   "updated":"Jan 1, 2024"
 // }
 
-//partition data into tracks and add to leaderboard
+const json = getData();
 const leaderboard = new Leaderboard();
+// document.addEventListener("DOMContentLoaded", getData);
+
+//partition data into tracks and add to leaderboard
 for (let key in json) {
     console.log(key + ": " + json[key]);
     if (key === "updated"){
