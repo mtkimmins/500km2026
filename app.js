@@ -136,7 +136,7 @@ class Track {
 function addJSONAsTracks(json, leaderboard){
     for (let key in json) {
         console.log(key + ": " + json[key]);
-        if (key === "updated"){
+        if (key === "updatedAt"){
             leaderboard.drawUpdatedAt(json[key]);
             continue;
         }
@@ -199,4 +199,3 @@ function triggerDataLoad(){
 // RUNTIME
 ////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', triggerDataLoad);
-setInterval(triggerDataLoad, 5 * 60 * 1000); // Refresh data every 5 minutes

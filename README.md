@@ -33,3 +33,4 @@ Its like a person (Github) orders a pizza from Dominos (App Scripts). When the p
 ---
 # Debugging Tips
 * To check if the App Script will return what you want, put the JSONP request directly in a browser URL itself. If it returns a string that you want, you're golden.
+* App Scripts must be re-deployed after each edit. You will have to take that custom URL and replace it in github pages each time. It is best to debug independent of Github commits (because the git commitment/update process is so slow).
