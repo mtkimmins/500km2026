@@ -151,6 +151,7 @@ function getData(){
 // }
 
 const json = getData();
+console.log("JSON Data:", json);
 const leaderboard = new Leaderboard();
 // document.addEventListener("DOMContentLoaded", getData);
 
