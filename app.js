@@ -133,37 +133,25 @@ class Track {
 /////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////
-
-//fetch data from google sheets
-function getData(){
-    var script = document.createElement('script');
-    script.src = SHEETS_API_URL + "?callback=handleData";
-    document.head.appendChild(script);
+function addJSONAsTracks(json, leaderboard){
+    for (let key in json) {
+        console.log(key + ": " + json[key]);
+        if (key === "updated"){
+            leaderboard.drawUpdatedAt(json[key]);
+            continue;
+        }
+        const track = new Track(
+            key,
+            parseFloat(json[key]),
+            "./plants.png"
+        );
+        console.log(track);
+        leaderboard.addTrack(track);
+        console.log(leaderboard.tracks);
+    }
 }
 
-
-function populateLeaderboard(json){
-    const leaderboard = new Leaderboard();
-    console.log("JSON Data:", json);
-    for (let key in json) {
-    console.log(key + ": " + json[key]);
-    if (key === "updated"){
-        leaderboard.drawUpdatedAt(json[key]);
-        continue;
-    }
-    const track = new Track(
-        key,
-        parseFloat(json[key]),
-        "./plants.png"
-    );
-    console.log(track);
-    leaderboard.addTrack(track);
-    console.log(leaderboard.tracks);
-    }
-
-    //sort tracks by distance
-    leaderboard.updatePlaces();
-
+function renderTracks(leaderboard){
     //render each track
     for (let track of leaderboard.tracks) {
         const entriesDiv = document.getElementById('leaderboard-entries');
@@ -172,22 +160,39 @@ function populateLeaderboard(json){
         entriesDiv.appendChild(trackDiv);
     }
 }
-////////////////////////////////////////////
-// RUNTIME
-////////////////////////////////////////////
-
-//TEST JSON DATA
-// const json = {
-//   "mike":230,
-//   "sam":405,
-//   "updated":"Jan 1, 2024"
-// }
 
 
-window.handleData = function(json) {
-    console.log("Received JSON:", json);
-    document.getElementById('json_output').innerText = json.message || '';
+function populateLeaderboard(json){
+    //Convert JSON as tracks
+    const leaderboard = new Leaderboard();
+    addJSONAsTracks(json, leaderboard);
+
+    //sort tracks by distance
+    leaderboard.updatePlaces();
+
+    //render tracks
+    renderTracks(leaderboard);
+
+}
+
+function buildHTTPRequest(callbackFunctionName){
+    const callbackSegment = '?callback=' + callbackFunctionName;
+    return SHEETS_API_URL + callbackSegment;
+}
+
+function receiveData(json){
+    console.log("Received data:", json);
     populateLeaderboard(json);
 }
 
-document.addEventListener('DOMContentLoaded', handleData);
+function triggerDataLoad(){
+    console.log("Triggering data load...");
+    const script = document.createElement('script');
+    script.src = buildHTTPRequest('receiveData');
+    document.head.appendChild(script);
+}
+////////////////////////////////////////////
+// RUNTIME
+////////////////////////////////////////////
+document.addEventListener('DOMContentLoaded', triggerDataLoad);
+setInterval(triggerDataLoad, 5 * 60 * 1000); // Refresh data every 5 minutes
