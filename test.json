@@ -1,5 +1,42 @@
-{
-  "mike":230,
-  "sam":405,
-  "updated":"Jan 1, 2024"
+{ "Samara": 
+   { "km_a": [ 3.52, 3.2, 4.37, 1, 3.05, 3.2 ],
+     "date_a": 
+      [ "Thu Jan 01 2026 18:16:28 GMT-0700 (Mountain Standard Time)",
+        "Fri Jan 02 2026 18:07:28 GMT-0700 (Mountain Standard Time)",
+        "Sat Jan 03 2026 17:47:16 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 15:57:06 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 18:28:26 GMT-0700 (Mountain Standard Time)",
+        "Fri Jan 09 2026 19:11:07 GMT-0700 (Mountain Standard Time)" ] },
+  "Hollie": 
+   { "km_a": [ 3.18, 3.3, 2.41, 1.07, 2.31, 1.58, 3.19, 4.06 ],
+     "date_a": 
+      [ "Sat Jan 03 2026 09:31:06 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 04 2026 09:12:44 GMT-0700 (Mountain Standard Time)",
+        "Mon Jan 05 2026 21:04:36 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 15:08:18 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 13:35:25 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:05:38 GMT-0700 (Mountain Standard Time)",
+        "Sat Jan 10 2026 08:25:22 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 11 2026 08:46:34 GMT-0700 (Mountain Standard Time)" ] },
+  "Taylor": 
+   { "km_a": [ 3, 6, 4 ],
+     "date_a": 
+      [ "Sat Jan 03 2026 17:20:31 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 19:17:24 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:13:23 GMT-0700 (Mountain Standard Time)" ] },
+  "Mike": 
+   { "km_a": [ 5, 5, 8, 4, 6 ],
+     "date_a": 
+      [ "Sun Jan 04 2026 12:33:32 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 14:39:20 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 14:32:32 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 13:41:53 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 11 2026 11:12:54 GMT-0700 (Mountain Standard Time)" ] },
+  "Erika": 
+   { "km_a": [ 1, 3.2, 2 ],
+     "date_a": 
+      [ "Tue Jan 06 2026 19:03:59 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 12:29:43 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:13:56 GMT-0700 (Mountain Standard Time)" ] },
+  "updatedAt": "Sun Jan 11 2026" 
 }

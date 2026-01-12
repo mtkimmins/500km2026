@@ -1,4 +1,6 @@
 # IN PROGRESS
+* Loading new API data format
+* Truncating km display values
 
 ---
 # Overview

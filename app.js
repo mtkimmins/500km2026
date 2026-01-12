@@ -1,7 +1,22 @@
 //VARS 
-SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyvTcG8b_DE0XdYW2zRei1ph2LA1vOnOx523X6UqxpKWqm9Sl6qtY6G8NJNVFOwwVM00A/exec';
+const SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbyvTcG8b_DE0XdYW2zRei1ph2LA1vOnOx523X6UqxpKWqm9Sl6qtY6G8NJNVFOwwVM00A/exec';
+const SHEETS_API_URL2 = 'https://script.google.com/macros/s/AKfycbyEL4q3e8I5fLT-N6NUbfWnpFmkz_vOf6y7GeIDzV5RVTR8x-ZWIuk4okB4Bwsyf1F33Q/exec';
 
 
+
+/* WHAT SHOULD BE EXPECTED from App Scripts API
+{
+  "mike":{
+    "kms_a":[4,5],
+    "dates_a":["10 Jan 2026", "10 Jan 2026"]
+  }
+  "sam":{
+    "kms_a":[10,8,3],
+    "dates_a":["6 Jan 2026", "7 Jan 2026", "9 Jan 2026"]
+  }
+  "updated":"10 Jan 2026"
+}
+*/
 ////////////////////////////////////////////
 // CLASSES
 ///////////////////////////////////////////
@@ -24,7 +39,7 @@ class Leaderboard {
     }
 
     _sortTracksByProgress(){
-        this.tracks.sort((a, b) => b.km - a.km);
+        this.tracks.sort((a, b) => b.km_sum - a.km_sum);
     }
 
     updatePlaces(){
@@ -45,24 +60,6 @@ class Leaderboard {
 
     }
 
-    addJSONAsTracks(json){
-        for (let key in json) {
-            console.log(key + ": " + json[key]);
-            if (key === "updatedAt"){
-                this.drawUpdatedAt(json[key]);
-                continue;
-            }
-            const track = new Track(
-                key,
-                parseFloat(json[key]),
-                "./plants.png"
-            );
-            console.log(track);
-            this.addTrack(track);
-            console.log(this.tracks);
-            }
-        }
-
     renderTracks(){
         //render each track
         for (let track of this.tracks) {
@@ -79,43 +76,52 @@ class Leaderboard {
     
     populateLeaderboard(json){
         //Convert JSON as tracks
-        addJSONAsTracks(json);
+        this.addJSONAsTracks(json);
         //sort tracks by distance
-        updatePlaces();
+        this.updatePlaces();
         //render tracks
-        renderTracks();
+        this.renderTracks();
 
-}
+    }
+
+    addJSONAsTracks(json){
+        for (let key in json){
+            console.log("KEY: ",key);
+            // Set the updated time if key is updatedAt
+            if (key === "updatedAt"){
+                this.drawUpdatedAt(json[key]);
+                continue;
+            }
+            const track = new Track(
+                key,
+                json[key]["km_a"],
+                "./plants.png"
+            );
+            console.log("TRACK MADE: ", track);
+            leaderboard.addTrack(track);
+            console.log("TOTAL TRACK LIST: ",leaderboard.tracks);
+        }
+    }
 }
 
 
 class Track {
-    constructor(name, km, avatar_url){
+    constructor(name, kms, avatar_url){
         this.name = name;
         this.place = 0;
-        this.km = km;
+        this.kms = kms; //Array
+        this.km_sum = this._getKmSum();
         this.avatar_url = avatar_url;
         this.total_km = 500;
     }
 
-    addKm(amount){
-        //check if its a number
-        this.km += amount;
-    }
-
-    setGoalKm(amount){
-        //check if number
-        this.total_km = amount;
-    }
-
-    setProgressKm(amount){
-        //check if number
-        this.km = amount;
-    }
-
     getProgressPercentage(){
         if(this.total_km === 0) return 0;
-        return (this.km / this.total_km) * 100;
+        return (this.km_sum / this.total_km) * 100;
+    }
+
+    _getKmSum(){
+        return Math.round(this.kms.reduce((a, b) => a + b, 0));
     }
 
     draw(){
@@ -133,7 +139,7 @@ class Track {
         nameDiv.style.order = '-1';
         nameDiv.style.textAlign = 'left';
         parentDiv.appendChild(nameDiv);
-        nameDiv.innerText = `${this.place}. ${this.name} - ${this.km} km`;
+        nameDiv.innerText = `${this.place}. ${this.name} - ${this.km_sum} km`;
         nameDiv.style.fontSize = '24px';
         nameDiv.style.marginBottom = '10px';
         //Create Runner
@@ -146,7 +152,7 @@ class Track {
         const distanceDiv = document.createElement('div');
         runnerDiv.appendChild(distanceDiv);
         distanceDiv.style.order = '-1';
-        distanceDiv.innerHTML = `${this.km} km`;
+        distanceDiv.innerHTML = `${this.km_sum} km`;
         distanceDiv.style.fontSize = '20px';
         //Create avatar img
         const avatarImg = document.createElement('img');
@@ -175,60 +181,14 @@ class Track {
 /////////////////////////////////////////////
 // FUNCTIONS
 ////////////////////////////////////////////
-function addJSONAsTracks(json, leaderboard){
-    for (let key in json) {
-        console.log(key + ": " + json[key]);
-        if (key === "updatedAt"){
-            leaderboard.drawUpdatedAt(json[key]);
-            continue;
-        }
-        const track = new Track(
-            key,
-            parseFloat(json[key]),
-            "./plants.png"
-        );
-        console.log(track);
-        leaderboard.addTrack(track);
-        console.log(leaderboard.tracks);
-    }
-}
-
-function renderTracks(leaderboard){
-    //render each track
-    for (let track of leaderboard.tracks) {
-        if (track === "updatedAt") {
-            console.log("Skipping updatedAt");
-            continue;
-        }
-        const entriesDiv = document.getElementById('leaderboard-entries');
-        const trackDiv = track.draw();
-        
-        entriesDiv.appendChild(trackDiv);
-    }
-}
-
-
-function populateLeaderboard(json){
-    const leaderboard = new Leaderboard();
-    //Convert JSON as tracks
-    addJSONAsTracks(json, leaderboard);
-
-    //sort tracks by distance
-    leaderboard.updatePlaces();
-
-    //render tracks
-    renderTracks(leaderboard);
-
-}
-
 function buildHTTPRequest(callbackFunctionName){
     const callbackSegment = '?callback=' + callbackFunctionName;
-    return SHEETS_API_URL + callbackSegment;
+    return SHEETS_API_URL2 + callbackSegment;
 }
 
 function receiveData(json){
     console.log("Received data:", json);
-    populateLeaderboard(json);
+    leaderboard.populateLeaderboard(json);
 }
 
 function triggerDataLoad(){
@@ -237,9 +197,63 @@ function triggerDataLoad(){
     script.src = buildHTTPRequest('receiveData');
     document.head.appendChild(script);
 }
-
+////////////////////////////////////////////
+//  TESTS
+////////////////////////////////////////////
+const test_json = { 
+  "Samara": 
+   { "km_a": [ 3.52, 3.2, 4.37, 1, 3.05, 3.2 ],
+     "date_a": 
+      [ "Thu Jan 01 2026 18:16:28 GMT-0700 (Mountain Standard Time)",
+        "Fri Jan 02 2026 18:07:28 GMT-0700 (Mountain Standard Time)",
+        "Sat Jan 03 2026 17:47:16 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 15:57:06 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 18:28:26 GMT-0700 (Mountain Standard Time)",
+        "Fri Jan 09 2026 19:11:07 GMT-0700 (Mountain Standard Time)" ] },
+  "Hollie": 
+   { "km_a": [ 3.18, 3.3, 2.41, 1.07, 2.31, 1.58, 3.19, 4.06 ],
+     "date_a": 
+      [ "Sat Jan 03 2026 09:31:06 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 04 2026 09:12:44 GMT-0700 (Mountain Standard Time)",
+        "Mon Jan 05 2026 21:04:36 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 15:08:18 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 13:35:25 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:05:38 GMT-0700 (Mountain Standard Time)",
+        "Sat Jan 10 2026 08:25:22 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 11 2026 08:46:34 GMT-0700 (Mountain Standard Time)" ] },
+  "Taylor": 
+   { "km_a": [ 3, 6, 4 ],
+     "date_a": 
+      [ "Sat Jan 03 2026 17:20:31 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 19:17:24 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:13:23 GMT-0700 (Mountain Standard Time)" ] },
+  "Mike": 
+   { "km_a": [ 5, 5, 8, 4, 6 ],
+     "date_a": 
+      [ "Sun Jan 04 2026 12:33:32 GMT-0700 (Mountain Standard Time)",
+        "Tue Jan 06 2026 14:39:20 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 14:32:32 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 13:41:53 GMT-0700 (Mountain Standard Time)",
+        "Sun Jan 11 2026 11:12:54 GMT-0700 (Mountain Standard Time)" ] },
+  "Erika": 
+   { "km_a": [ 1, 3.2, 2 ],
+     "date_a": 
+      [ "Tue Jan 06 2026 19:03:59 GMT-0700 (Mountain Standard Time)",
+        "Wed Jan 07 2026 12:29:43 GMT-0700 (Mountain Standard Time)",
+        "Thu Jan 08 2026 18:13:56 GMT-0700 (Mountain Standard Time)" ] },
+  "updatedAt": "Sun Jan 11 2026" 
+}
 
 ////////////////////////////////////////////
 // RUNTIME
 ////////////////////////////////////////////
+const leaderboard = new Leaderboard();
 document.addEventListener('DOMContentLoaded', triggerDataLoad);
+
+// console.log("Testing test_json parsing:",test_json);
+// for (runner in test_json){
+//     if (runner === "updatedAt") continue;
+//     console.log(runner);
+//     console.log(test_json[runner]["km_a"]);
+// }
+// leaderboard.populateLeaderboard(test_json);
