@@ -130,22 +130,20 @@ class Track {
         const margin = 100;
         //Create parent div
         const parentDiv = document.createElement('div');
-        parentDiv.style.flexDirection = 'column';
-        parentDiv.style.alignItems = 'center';
+        parentDiv.style.display = 'grid';
+        parentDiv.style.grid = 'auto auto auto';
         parentDiv.style.marginBottom = '40px';
-        parentDiv.style.width = screenWidth - margin*2 + 'px';
+        parentDiv.style.width = screenWidth * 0.9 + 'px';
         //Create name div
         const nameDiv = document.createElement('div');
         nameDiv.style.order = '-1';
-        nameDiv.style.textAlign = 'left';
         parentDiv.appendChild(nameDiv);
-        nameDiv.innerText = `${this.place}. ${this.name} - ${this.km_sum} km`;
+        nameDiv.innerText = `(${this.place}) ${this.name}`;
         nameDiv.style.fontSize = '24px';
         nameDiv.style.marginBottom = '10px';
         //Create Runner
         const runnerDiv = document.createElement('div');
-        runnerDiv.style.display = 'flex';
-        runnerDiv.style.flexDirection = 'row';
+        runnerDiv.style.display = 'grid';
         runnerDiv.style.alignItems = 'center';
         parentDiv.appendChild(runnerDiv);
         //Create Distance
@@ -249,11 +247,3 @@ const test_json = {
 ////////////////////////////////////////////
 const leaderboard = new Leaderboard();
 document.addEventListener('DOMContentLoaded', triggerDataLoad);
-
-// console.log("Testing test_json parsing:",test_json);
-// for (runner in test_json){
-//     if (runner === "updatedAt") continue;
-//     console.log(runner);
-//     console.log(test_json[runner]["km_a"]);
-// }
-// leaderboard.populateLeaderboard(test_json);
