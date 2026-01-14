@@ -131,7 +131,7 @@ class Track {
         //Create parent div
         const parentDiv = document.createElement('div');
         parentDiv.style.display = 'grid';
-        parentDiv.style.grid = 'auto auto auto';
+        parentDiv.style.gridRow = 'auto auto';
         parentDiv.style.marginBottom = '40px';
         parentDiv.style.width = screenWidth * 0.9 + 'px';
         //Create name div
@@ -171,7 +171,7 @@ class Track {
         //Position avatar based on progress
         const progressPercent = this.getProgressPercentage();
         runnerDiv.style.position = 'relative';
-        runnerDiv.style.left = ((screenWidth - margin*2) * (progressPercent / 100)) + 'px';
+        runnerDiv.style.left = ((screenWidth*0.9) * (progressPercent / 100)) + 'px';
         return parentDiv;
 
     }
