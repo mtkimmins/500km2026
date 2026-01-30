@@ -99,7 +99,7 @@ class Leaderboard {
             const track = new Track(
                 key,
                 json[key]["km_a"],
-                "./plants.png"
+                "./runner.png"
             );
             console.log("TRACK MADE: ", track);
             leaderboard.addTrack(track);
@@ -147,6 +147,7 @@ class Track {
         nameDiv.style.marginBottom = '10px';
         //Create Runner
         const runnerDiv = document.createElement('div');
+        runnerDiv.classList.add('runner');
         runnerDiv.style.display = 'grid';
         runnerDiv.style.alignItems = 'center';
         parentDiv.appendChild(runnerDiv);
@@ -158,19 +159,20 @@ class Track {
         distanceDiv.style.fontSize = '20px';
         //Create avatar img
         const avatarImg = document.createElement('img');
+        avatarImg.classList.add('avatar');
         avatarImg.style.order = '1';
         runnerDiv.appendChild(avatarImg);
         avatarImg.src = this.avatar_url;
         avatarImg.style.width = 50 + 'px';
         avatarImg.style.height = 50 + 'px';
-        avatarImg.style.borderRadius = '50%';
+        // avatarImg.style.borderRadius = '100%';
         //Track line
         const lineDiv = document.createElement('div');
         lineDiv.style.order = '1';
         parentDiv.appendChild(lineDiv);
         lineDiv.style.width = screenWidth - margin*2;
         lineDiv.style.height = '10px';
-        lineDiv.style.backgroundColor = '#000000ff';
+        lineDiv.style.backgroundColor = '#492828';
 
         //Position avatar based on progress
         const progressPercent = this.getProgressPercentage();
