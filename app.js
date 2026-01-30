@@ -75,6 +75,10 @@ class Leaderboard {
         }
     
     populateLeaderboard(json){
+        const loader = document.getElementsByClassName('loader');
+        if (loader.length > 0){
+            loader[0].remove();
+        }
         //Convert JSON as tracks
         this.addJSONAsTracks(json);
         //sort tracks by distance
@@ -138,7 +142,7 @@ class Track {
         const nameDiv = document.createElement('div');
         nameDiv.style.order = '-1';
         parentDiv.appendChild(nameDiv);
-        nameDiv.innerText = `(${this.place}) ${this.name}`;
+        nameDiv.innerText = `${this.name}`;
         nameDiv.style.fontSize = '24px';
         nameDiv.style.marginBottom = '10px';
         //Create Runner
