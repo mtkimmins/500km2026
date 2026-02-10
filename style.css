@@ -29,3 +29,7 @@ body {
     50% { rotate: -25deg; }
     100% { rotate: 25deg; }
 }
+
+.line_history {
+    gap: 20px;
+}

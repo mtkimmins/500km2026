@@ -1,12 +1,12 @@
 # IN PROGRESS
-* Build Image library
-    * runner
-        * rotate sprite
-    * face-holder
-    * first, second, third medal
-* Loading Icon
-* Dynamic Boundaries
 * History Log
+* Build Image library
+* Error handling (API side)
+* Dynamic Boundaries
+* ~~Loading Icon~~
+
+
+
 
 ---
 # Overview

@@ -96,9 +96,11 @@ class Leaderboard {
                 this.drawUpdatedAt(json[key]);
                 continue;
             }
+            console.log("DATES",json[key]["date_a"]);
             const track = new Track(
                 key,
                 json[key]["km_a"],
+                json[key]["date_a"],
                 "./runner.png"
             );
             console.log("TRACK MADE: ", track);
@@ -110,13 +112,15 @@ class Leaderboard {
 
 
 class Track {
-    constructor(name, kms, avatar_url){
+    constructor(name, kms, dates, avatar_url){
         this.name = name;
         this.place = 0;
         this.kms = kms; //Array
+        this.dates = dates; //Array
         this.km_sum = this._getKmSum();
         this.avatar_url = avatar_url;
         this.total_km = 500;
+        this.history_tab = document.createElement('div');
     }
 
     getProgressPercentage(){
@@ -165,7 +169,6 @@ class Track {
         avatarImg.src = this.avatar_url;
         avatarImg.style.width = 50 + 'px';
         avatarImg.style.height = 50 + 'px';
-        // avatarImg.style.borderRadius = '100%';
         //Track line
         const lineDiv = document.createElement('div');
         lineDiv.style.order = '1';
@@ -173,13 +176,46 @@ class Track {
         lineDiv.style.width = screenWidth - margin*2;
         lineDiv.style.height = '10px';
         lineDiv.style.backgroundColor = '#492828';
-
+        lineDiv.classList.add("line_history")
+        //Populate history
+        parentDiv.appendChild(this.populateHistoryAccordion());
+    
         //Position avatar based on progress
         const progressPercent = this.getProgressPercentage();
         runnerDiv.style.position = 'relative';
         runnerDiv.style.left = ((screenWidth*0.9) * (progressPercent / 100)) + 'px';
+        
+        
+        
         return parentDiv;
+    }
 
+    populateHistoryAccordion() {
+        //Make the title button
+        const summary_button = document.createElement('summary');
+        summary_button.textContent = "History";
+        summary_button.title = "Open to see breakdown of times and distances";
+        //Make the parent
+        const accordion = document.createElement('details');
+        accordion.appendChild(summary_button); //Must be the first child
+        //Ensure both dates and km are the same length
+        // if (this.dates.length == this.kms.length){
+        //     console.log("dates match kms length");
+        // }
+        const date_length = this.dates.length;
+        const kms_length = this.kms.length;
+        //Populate with entries
+        const entryList = document.createElement("ul");
+        for (let i=0; i<date_length;i++){
+            const entryLine = document.createElement("li");
+            // console.log("ENTRY",String(this.kms[i]),"recorded on", String(this.dates[i]));
+            entryLine.textContent = String(this.dates[i].slice(0,10)) + " recorded " + String(this.kms[i]) + " km(s).";
+            entryList.appendChild(entryLine);
+        }
+        accordion.appendChild(entryList);
+        accordion.style.order = "1";
+        
+        return accordion;
     }
 }
 /////////////////////////////////////////////
