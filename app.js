@@ -129,7 +129,7 @@ class Track {
     }
 
     _getKmSum(){
-        return (this.kms.reduce((a, b) => a + b, 0)).toFixed(2);
+        return Math.round(this.kms.reduce((a, b) => a + b, 0) * 100) / 100;
     }
 
     draw(){
